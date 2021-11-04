@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+        <title>PetDepot</title>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1 v-text="sitename"></h1>
+            <button>
+                {{cartItemCount}}
+                <span class="fas fa-cart-plus"></span>
+                Checkout
+            </button>
+        </header>
+        <main>
+            <div v-if="showProduct">
+                <figure>
+                    <img v-bind:src="product.image">
+                </figure>
+                <h2 v-text="product.title"></h2>
+                <p v-text="product.description"></p>
+                <p>Price {{product.price}}</p>
+                <input type="button" value="add" v-on:click="addItem">
+                <input type="button" disabled="disabled" value="add" v-else>
+            </div>
+            <div v-else>
+                Test
+            </div>
+        </main>
+    </div>
+
+</body>
+
+<script>
+    var webstore = new Vue({
+        el: '#app',
+        data: {
+            showProduct: true,
+            sitename: 'Vue.js Pet Depot',
+            cart: [],
+            product: {
+                id: 1001,
+                title: 'Cat food',
+                description: "A 25kg bag",
+                price: 200,
+                image: "images/product-image.png",
+                availableInventory: 5
+            }
+        },
+
+        methods: {
+            addItem: function () {
+                alert('Item has been added to cart');
+                this.cart.push(this.product.id);
+            },
+            showCheckout() {
+                this.showProduct = this.showProduct ? false : true;
+            }
+        },
+
+        computed: {
+            cartItemCount: function () {
+                return this.cart.length || '';
+            },
+
+            canAddToCart: function () {
+                return this.product.availableInventory > this.cartItemCount;
+            }
+        }
+    })
+</script>
+
+</html>

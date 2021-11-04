@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	<title>Coursework 1</title>
+	<style>
+		main {
+			border: 1px solid #2566d4;
+			padding: 30px;
+			margin: 30px;
+			border-radius: 30px;
+			width: 250px;
+			display: grid;
+			grid-row-gap: 20px;
+
+
+		}
+
+		main input {
+			color: #333;
+			background-color: #2566d4;
+			color: white;
+			padding: 15px 10px;
+			border: none;
+			font-size: 20px;
+			line-height: 0.5em;
+			cursor: pointer;
+		}
+
+		main p {
+			font-size: 20px;
+			line-height: 0.5em;
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="app">
+		<main>
+			<div class="text">
+				<p>Subject: {{values.subject}}</p>
+				<p>Location: {{values.location}}</p>
+				<p>Price: {{values.price}}</p>
+				<p>Spaces: {{spaceCount}}</p>
+			</div>
+			<input type="button" value="Add to cart" v-on:click="deleteitem">
+		</main>
+	</div>
+
+</body>
+
+<script>
+	var webstore = new Vue({ //Inistialization of a new Vue application.
+		el: "#app", //Indicate the location in which the Vue application will be working.
+		data: {
+			addSpace: [{
+					0: '1001'
+				},
+				{
+					1: '1002'
+				},
+				{
+					2: '1003'
+				},
+				{
+					3: '1004'
+				},
+				{
+					4: '1005'
+				}
+			],
+			values: {
+				subject: 'Math',
+				location: 'London',
+				price: '£100',
+				availableSpaces: 5
+			},
+		},
+		methods: {
+			deleteitem: function () {
+				// alert("item has been deleted from cart");
+				this.addSpace.pop(this.values.id);
+			}
+		},
+		computed: {
+			spaceCount: function () {
+				return this.addSpace.length || "";
+			},
+			deleteSpace: function () {
+				return this.values.availableSpaces > this.spaceCount
+			}
+		}
+	})
+</script>
+
+</html>

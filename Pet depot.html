@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+  <title>Pet Depot</title>
+</head>
+
+<body>
+  <div id="app">
+    <!--App is the location where Vue will be mounted-->
+    <header>
+      <h1 v-text="sitename"> </h1>
+      <button v-on:click="showcheckout">
+        <!--App is the location where Vue will be mounted-->
+        {{cartitemcount}}
+        <!--carditem count is used the same way as a property-->
+        <span class="fas fa-cart-plus"></span>
+        checkout
+      </button>
+    </header>
+    <main>
+      <div v-if="showproduct">
+        <figure>
+          <img v-bind:src="product.image">
+        </figure>
+        <h2 v-text="product.title"></h2>
+        <p v-text="product.description"></p>
+        <p>price {{product.price}} </p>
+        <input type="button" value="add" v-if="canaddtocart" v-on:click="additem">
+        <input type="button" value="delete" v-if="candeletefromcart" v-on:click="deleteitem">
+        <input type="button" disabled="disabled" value="add" v-else>
+      </div>
+      <div v-else> Test </div>
+    </main>
+  </div>
+</body>
+<script>
+  var webstore = new Vue({ //Inistialization of a new Vue application.
+    el: "#app", //Indicate the location in which the Vue application will be working.
+    data: {
+      showproduct: true,
+      sitename: "Vue.js pet depot",
+      store: [], //array to store items in cart
+      product: {
+        id: 1001,
+        title: "cat food",
+        description: "A 25kg bag",
+        price: 200,
+        image: "images/product-image.png",
+        availableInventory: 5
+      },
+    },
+    methods: {
+      additem: function () {
+        alert("item has been added to cart");
+        this.store.push(this.product.id);
+      },
+      deleteitem: function () {
+        alert("item has been deleted from cart");
+        this.store.pop(this.product.id);
+      },
+      showcheckout() {
+        this.showproduct = this.showproduct ? false : true;
+      }
+    },
+    computed: {
+      cartitemcount: function () {
+        return this.store.length || "";
+      },
+      canaddtocart: function () {
+        return this.product.availableInventory > this.cartitemcount
+      },
+      candeletefromcart: function () {
+        return this.product.availableInventory > this.cartitemcount
+      }
+    }
+  })
+</script>
+
+</html>
